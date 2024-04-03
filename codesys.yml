@@ -1,0 +1,19 @@
+FROM ubuntu:latest
+
+# Install necessary dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    wget \
+    gnupg2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download and install CODESYS
+RUN wget -O /tmp/codesys.deb https://store.codesys.com/codesys-download/codesys-control-runtime/download/codesys-control-runtime-raspberry-pi-cm4-armhf_4.7.0.0-1.deb && \
+    dpkg -i /tmp/codesys.deb && \
+    rm -f /tmp/codesys.deb
+
+# Expose necessary ports
+EXPOSE 1217 2455 2456
+
+# Start CODESYS
+CMD ["codesyscontrol"]
