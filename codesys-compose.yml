@@ -17,3 +17,8 @@ EXPOSE 1217 2455 2456
 
 # Start CODESYS
 CMD ["codesyscontrol"]
+docker run -d --name="050---wago-caa3-cc-FW26" --network=host --privileged \
+    -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket \
+    -v /tmp:/tmp \
+    -v /drm:/drm \
+    --restart=always wagoalex/cc-fw26:latest --init
