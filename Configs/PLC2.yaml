@@ -1,10 +1,13 @@
-version: "2"
- 
+version: '3.7'
 services:
- codesys:
-   image: hilschernetpi/netpi-codesys-basis:1.0.1
-   network_mode: "host"
-   restart: always
-   devices:
-     - "/dev/vcio:/dev/vcio"
-   privileged: true
+  Wago-CAA-Runtime:
+    image: wagoalex/cc-fw26:latest
+    container_name: "050---wago-caa3-cc-FW26"
+    command: "--init"
+    network_mode: host
+    privileged: true
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /tmp:/tmp
+      - /drm:/drm
+    restart: always
