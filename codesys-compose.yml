@@ -1,24 +1,17 @@
-FROM ubuntu:latest
-
-# Install necessary dependencies
-RUN apt-get update && \
-    apt-get install -y \
-    wget \
-    gnupg2 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Download and install CODESYS
-RUN wget -O /tmp/codesys.deb https://store.codesys.com/codesys-download/codesys-control-runtime/download/codesys-control-runtime-raspberry-pi-cm4-armhf_4.7.0.0-1.deb && \
-    dpkg -i /tmp/codesys.deb && \
-    rm -f /tmp/codesys.deb
-
-# Expose necessary ports
-EXPOSE 1217 2455 2456
-
-# Start CODESYS
-CMD ["codesyscontrol"]
-docker run -d --name="050---wago-caa3-cc-FW26" --network=host --privileged \
-    -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket \
-    -v /tmp:/tmp \
-    -v /drm:/drm \
-    --restart=always wagoalex/cc-fw26:latest --init
+services:
+ codesys:
+    image: codesys_caa/runtime:5.0.5009.126
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - OR_I_ACCEPT_EULA=true
+      - INITIAL_USERNAME=admin
+      - INITIAL_PASSWORD=admin
+      - OR_IMPORT_SOURCE=/tmp/demo-project.rpe
+      - OR_IMPORT_ALLOW_CLEAR_CONFIG=true
+      - OR_IMPORT_RUNTIME_CONFIGURATION_FILE=/${PORTAINER_EDGE_ID}/config.yaml
+      - MACHINE_NAME=${PORTAINER_EDGE_ID}
+    volumes:
+      - ./demo-project.rpe:/tmp/demo-project.rpe
+      - ./configs/${PORTAINER_EDGE_ID}:/${PORTAINER_EDGE_ID}
