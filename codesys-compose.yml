@@ -1,17 +1,13 @@
+version: '3.7'
 services:
- codesys:
-    image: codesys_caa/runtime:5.0.5009.126
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    environment:
-      - OR_I_ACCEPT_EULA=true
-      - INITIAL_USERNAME=admin
-      - INITIAL_PASSWORD=admin
-      - OR_IMPORT_SOURCE=/tmp/demo-project.rpe
-      - OR_IMPORT_ALLOW_CLEAR_CONFIG=true
-      - OR_IMPORT_RUNTIME_CONFIGURATION_FILE=/${PORTAINER_EDGE_ID}/config.yaml
-      - MACHINE_NAME=${PORTAINER_EDGE_ID}
+  Wago-CAA-Runtime:
+    image: wagoalex/cc-fw26:latest
+    container_name: "050---wago-caa3-cc-FW26"
+    command: "--init"
+    network_mode: host
+    privileged: true
     volumes:
-      - ./demo-project.rpe:/tmp/demo-project.rpe
-      - ./configs/${PORTAINER_EDGE_ID}:/${PORTAINER_EDGE_ID}
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /tmp:/tmp
+      - /drm:/drm
+    restart: always
