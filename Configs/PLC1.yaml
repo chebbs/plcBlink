@@ -10,4 +10,5 @@ services:
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       - /tmp:/tmp
       - /drm:/drm
+      - /home/codesys_root/PlcLogic/Application:/home/codesys_root/PlcLogic/Application
     restart: always
