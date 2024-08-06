@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   Wago-CAA-Runtime:
-    image: wagoalex/cc-fw26:latest
+    image: wagoalex/cc-9301-app-analytics:1.0
     container_name: "050---wago-caa3-cc-FW26"
     command: "--init"
     network_mode: host
@@ -10,4 +10,5 @@ services:
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       - /tmp:/tmp
       - /drm:/drm
+      - /home/codesys_root/PlcLogic/Application:/home/codesys_root/PlcLogic/Application
     restart: always
